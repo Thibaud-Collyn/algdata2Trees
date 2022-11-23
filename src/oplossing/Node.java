@@ -112,9 +112,10 @@ public class Node<E extends Comparable<E>> {
     public void removeKey(E key) {
         if (key2 != null && key.compareTo(key2) == 0) {
             key2 = null;
+        } else {
+            key1 = key2;
+            key2 = null;
         }
-        key1 = key2;
-        key2 = null;
     }
 
     //Function that returns whether a node is a leaf or not

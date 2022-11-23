@@ -44,10 +44,10 @@ public interface SearchTreeTest {
     default void addMultiple() {
         SearchTree<Integer> tree = createTree();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             assertTrue(tree.add(i));
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             assertTrue(tree.contains(i), String.format("should contain %d", i));
         }
     }
@@ -56,10 +56,10 @@ public interface SearchTreeTest {
     default void removeMultiple() {
         SearchTree<Integer>tree = createTree();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             assertTrue(tree.add(i), String.format("should change when adding %d", i));
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             assertTrue(tree.contains(i), String.format("should contain %d", i));
             assertTrue(tree.remove(i), String.format("should change when removing %d", i));
             assertFalse(tree.contains(i), String.format("should not contain %d anymore", i));
