@@ -7,11 +7,7 @@ import java.util.Iterator;
 
 public class TwoThreeTree<E extends Comparable<E>> implements SearchTree<E> {
 
-    private Node<E> root = null;
-
-    public TwoThreeTree() {
-
-    }
+    protected Node<E> root = null;
 
     @Override
     public int size() {
@@ -64,7 +60,11 @@ public class TwoThreeTree<E extends Comparable<E>> implements SearchTree<E> {
         } else if (currentNode.isLeaf()) {
             return false;
         } else {
-            return search(o, currentNode.nextNode(o));
+            if (currentNode.nextNode(o) == null) {
+                return false;
+            } else {
+                return search(o, currentNode.nextNode(o));
+            }
         }
     }
 
@@ -183,8 +183,8 @@ public class TwoThreeTree<E extends Comparable<E>> implements SearchTree<E> {
         } else {
             lChild = Start.getChildNode1();
         }
-        while (! lChild.isLeaf()) {
-            lChild = lChild.hasTwoKeys() ? lChild.getChildNode3() : lChild.getChildNode2();
+        while (lChild.getRightChild() != null) {
+            lChild = lChild.getRightChild();
         }
         return lChild;
     }
@@ -194,6 +194,9 @@ public class TwoThreeTree<E extends Comparable<E>> implements SearchTree<E> {
         Node<E> currentNode = root;
         while (!currentNode.containsKey(key)) {
             currentNode = currentNode.nextNode(key);
+            if (currentNode == null) {
+                return null;
+            }
         }
         return currentNode;
     }
@@ -219,7 +222,6 @@ public class TwoThreeTree<E extends Comparable<E>> implements SearchTree<E> {
         return rRemove(grtstLChild);
     }
 
-    //FIXME: balancing is broken, thoroughly debug...
     public boolean rRemove(Node <E> emptyNode) {
         if (isRoot(emptyNode)) {
             root = emptyNode.getChildNode1();

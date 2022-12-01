@@ -75,6 +75,10 @@ public class Node<E extends Comparable<E>> {
         return key2;
     }
 
+    public Node<E> getRightChild() {
+        return hasTwoKeys() ? childNode3 : childNode2;
+    }
+
     //Functions returns the amount of key in the node
     public int nodeSize() {
         if (isEmpty()) {
@@ -136,5 +140,17 @@ public class Node<E extends Comparable<E>> {
             return childNode1;
         }
         return childNode2;
+    }
+
+    public boolean equals(Node<E> node) {
+        if (node == null) {
+            return false;
+        } else if (nodeSize() != node.nodeSize()) {
+            return false;
+        } else if (nodeSize() == 1) {
+            return key1.compareTo(node.getKey1()) == 0;
+        } else {
+            return key1.compareTo(node.getKey1()) == 0 && key2.compareTo(node.getKey2()) == 0;
+        }
     }
 }

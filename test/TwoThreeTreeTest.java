@@ -16,52 +16,24 @@ public class TwoThreeTreeTest implements SearchTreeTest {
     @Test
     void addRandom() {
         SearchTree<Integer> tree = createTree();
-        Sampler random=new Sampler(new Random(),10000);
+        Sampler random=new Sampler(new Random(),50000000);
+        long start=System.currentTimeMillis();
         for (Integer el:random.getElements()) {
             assertTrue(tree.add(el));
             assertTrue(tree.contains(el),("should contain "+ el));
         }
+        System.out.println("Time: " + (System.currentTimeMillis() - start));
     }
 
     @Test
-    void addRandomCase1() {
-        SearchTree<Integer> tree = createTree();
-        ArrayList<Integer> randomLs = new ArrayList<>(Arrays.asList(82, 49, 8, 78, 26, 3, 25, 91, 70, 33, 59, 58, 92, 4, 79));
-
-        for (Integer el:randomLs) {
-            assertTrue(tree.add(el));
-            assertTrue(tree.contains(el),("should contain "+ el));
-        }
-    }
-
-    @Test
-    void removeRandom(){
+    public void removeRandom(){
         SearchTree<Integer>tree = createTree();
-
-        Sampler random = new Sampler(new Random(),10000);
+        Sampler random = new Sampler(new Random(),1000000);
         for (Integer el : random.getElements()) {
             assertTrue(tree.add(el), String.format("should change when adding %d", el));
-            //System.out.print(el + ", ");
         }
-
-        for (Integer el : random.getElements()) {
-            assertTrue(tree.contains(el), String.format("should contain %d", el));
-            assertTrue(tree.remove(el), String.format("should change when removing %d", el));
-            assertFalse(tree.contains(el), String.format("should not contain %d anymore", el));
-        }
-        assertEquals(0, tree.size(), "should be empty");
-    }
-
-    @Test
-    void removeCase1() {
-        SearchTree<Integer> tree = createTree();
-        ArrayList<Integer> randomLs = new ArrayList<>(Arrays.asList());
-
-        for (Integer el : randomLs) {
-            assertTrue(tree.add(el), String.format("should change when adding %d", el));
-        }
-
-        for (Integer el : randomLs) {
+        Sampler random2 = new Sampler(new Random(),1000000);
+        for (Integer el : random2.getElements()) {
             assertTrue(tree.contains(el), String.format("should contain %d", el));
             assertTrue(tree.remove(el), String.format("should change when removing %d", el));
             assertFalse(tree.contains(el), String.format("should not contain %d anymore", el));
