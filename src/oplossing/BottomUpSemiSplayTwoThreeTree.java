@@ -1,5 +1,13 @@
 package oplossing;
 
+import opgave.samplers.Sampler;
+import opgave.samplers.ZipfSampler;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.Random;
 import java.util.Stack;
 
 public class BottomUpSemiSplayTwoThreeTree<E extends Comparable<E>> extends TwoThreeTree<E>{
@@ -563,5 +571,93 @@ public class BottomUpSemiSplayTwoThreeTree<E extends Comparable<E>> extends TwoT
             tempTree.setParentNode(greatGrandParent);
             node = tempTree;
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter addNormal = new BufferedWriter(new FileWriter("Project/extra/BottomUpBenchAddNormal.csv"));
+        BufferedWriter removeNormal = new BufferedWriter(new FileWriter("Project/extra/BottomUpBenchRemoveNormal.csv"));
+        BufferedWriter addZipf = new BufferedWriter(new FileWriter("Project/extra/BottomUpBenchAddZipf.csv"));
+        BufferedWriter removeZipf = new BufferedWriter(new FileWriter("Project/extra/BottomUpBenchRemoveZipf.csv"));
+        BufferedWriter searchNormal = new BufferedWriter(new FileWriter("Project/extra/BottomUpBenchSearchNormal.csv"));
+        BufferedWriter searchZipf = new BufferedWriter(new FileWriter("Project/extra/BottomUpBenchSearchZipf.csv"));
+        Random rand = new Random();
+
+        BottomUpSemiSplayTwoThreeTree<Integer> tree = new BottomUpSemiSplayTwoThreeTree<>();
+
+        int size = 1000;
+        int testsize = 100;
+
+        for (int i = 0; i < testsize; i++) {
+            addNormal.append(String.valueOf(size + i * 1000)).append(",");
+            removeNormal.append(String.valueOf(size + i * 1000)).append(",");
+            addZipf.append(String.valueOf(size + i * 1000)).append(",");
+            removeZipf.append(String.valueOf(size + i * 1000)).append(",");
+            searchNormal.append(String.valueOf(size + i * 1000)).append(",");
+            searchZipf.append(String.valueOf(size + i * 1000)).append(",");
+        }
+
+        addNormal.append("\n");
+        removeNormal.append("\n");
+        addZipf.append("\n");
+        removeZipf.append("\n");
+        searchNormal.append("\n");
+        searchZipf.append("\n");
+
+        for (int i = 0; i < testsize; i++) {
+            Sampler sampler = new Sampler(rand, size);
+            ZipfSampler zipfSampler = new ZipfSampler(rand, size);
+
+            List<Integer> list = sampler.sample(size);
+            List<Integer> zipfList = zipfSampler.sample(size);
+            long startAddNormal = System.currentTimeMillis();
+            for (Integer el : list) {
+                tree.add(el);
+                tree.contains(el);
+            }
+            addNormal.append(String.valueOf(System.currentTimeMillis() - startAddNormal)).append(",");
+
+            long startSearchNormal = System.currentTimeMillis();
+            for (Integer el : list) {
+                tree.contains(el);
+            }
+            searchNormal.append(String.valueOf(System.currentTimeMillis() - startSearchNormal)).append(",");
+
+            long startRemoveNormal = System.currentTimeMillis();
+            for (Integer el : list) {
+                tree.remove(el);
+                tree.contains(el);
+            }
+            removeNormal.append(String.valueOf(System.currentTimeMillis() - startRemoveNormal)).append(",");
+
+            tree.clear();
+            long startAddZipf = System.currentTimeMillis();
+            for (Integer el : zipfList) {
+                tree.add(el);
+                tree.contains(el);
+            }
+            addZipf.append(String.valueOf(System.currentTimeMillis() - startAddZipf)).append(",");
+
+            long startSearchZipf = System.currentTimeMillis();
+            for (Integer el : zipfList) {
+                tree.contains(el);
+            }
+            searchZipf.append(String.valueOf(System.currentTimeMillis() - startSearchZipf)).append(",");
+
+            long startRemoveZipf = System.currentTimeMillis();
+            for (Integer el : zipfList) {
+                tree.remove(el);
+                tree.contains(el);
+            }
+            removeZipf.append(String.valueOf(System.currentTimeMillis() - startRemoveZipf)).append(",");
+
+
+            size += 1000;
+        }
+        addNormal.close();
+        removeNormal.close();
+        addZipf.close();
+        removeZipf.close();
+        searchNormal.close();
+        searchZipf.close();
     }
 }

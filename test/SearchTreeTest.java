@@ -67,14 +67,14 @@ public interface SearchTreeTest {
         assertEquals(0, tree.size(), "should be empty");
     }
 
-    @Test
-    default void iterator() {
-        SearchTree<Integer> tree = createTree();
-        List<Integer> expected = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            assertTrue(tree.add(i), String.format("should change when adding %d", i));
-            expected.add(i);
-        }
-        assertIterableEquals(expected, tree);
-    }
+//    @Test
+//    default void iterator() {
+//        SearchTree<Integer> tree = createTree();
+//        List<Integer> expected = new ArrayList<>();
+//        for (int i = 0; i < 10; i++) {
+//            assertTrue(tree.add(i), String.format("should change when adding %d", i));
+//            expected.add(i);
+//        }
+//        assertIterableEquals(expected, tree);
+//    }
 }

@@ -1,8 +1,12 @@
 import opgave.SearchTree;
 import opgave.samplers.Sampler;
+import opgave.samplers.ZipfSampler;
 import oplossing.TopDownSemiSplayTwoThreeTree;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
